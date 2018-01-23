@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-geolocation-orz",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Cordova Geolocation Plugin Baidu Location Customized",
   "cordova": {
     "id": "cordova-plugin-geolocation-orz",
