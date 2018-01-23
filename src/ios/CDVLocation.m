@@ -45,11 +45,7 @@
 
     // 要使用百度地图，请先启动BaiduMapManager
     _mapManager = [[BMKMapManager alloc]init];
-    //NSString *appId = [[self.commandDelegate settings] objectForKey:@"api_key"];
-    NSString* appId = [[self.commandDelegate settings] objectForKey:@"baidumapkey"];
-    //NSString* appId = [[self.commandDelegate settings] objectForKey:@"wechatappid"];
-    NSLog(@"%@",appId);
-    BOOL ret = [_mapManager start:appId generalDelegate:self];
+    BOOL ret = [_mapManager start:@"Ig80XWHvwEtfvrP6HAtIrkdV4WE1HwLC" generalDelegate:self];
     if (!ret) {
         NSLog(@"manager start failed!");
     }
@@ -68,19 +64,9 @@
 
 - (BOOL)isAuthorized
 {
-//    BOOL authorizationStatusClassPropertyAvailable = [CLLocationManager respondsToSelector:@selector(authorizationStatus)]; // iOS 4.2+
-//
-//    if (authorizationStatusClassPropertyAvailable) {
-//        NSUInteger authStatus = [CLLocationManager authorizationStatus];
-//#ifdef __IPHONE_8_0
-//        if ([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {  //iOS 8.0+
-//            return (authStatus == kCLAuthorizationStatusAuthorizedWhenInUse) || (authStatus == kCLAuthorizationStatusAuthorizedAlways) || (authStatus == kCLAuthorizationStatusNotDetermined);
-//        }
-//#endif
-//        return (authStatus == kCLAuthorizationStatusAuthorized) || (authStatus == kCLAuthorizationStatusNotDetermined);
-//    }
-//
-//    // by default, assume YES (for iOS < 4.2)
+    BOOL authorizationStatusClassPropertyAvailable = [CLLocationManager respondsToSelector:@selector(authorizationStatus)]; // iOS 4.2+
+
+    // by default, assume YES (for iOS < 4.2)
     return YES;
 }
 
@@ -122,7 +108,6 @@
         return;
     }
 
-#ifdef __IPHONE_8_0
     NSUInteger code = [CLLocationManager authorizationStatus];
     if (code == kCLAuthorizationStatusNotDetermined && ([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)] || [self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)])) { //iOS8+
         __highAccuracyEnabled = enableHighAccuracy;
@@ -135,7 +120,6 @@
         }
         return;
     }
-#endif
 
     // Tell the location manager to start notifying us of location updates. We
     // first stop, and then start the updating to ensure we get at least one
@@ -388,6 +372,12 @@
     else {
         NSLog(@"onGetPermissionState %d",iError);
     }
+}
+
+- (void)onCheckPermissionState:(int)iError
+{
+    NSLog(@"location auth onGetPermissionState %ld",(long)iError);
+    
 }
 /**
  *在地图View将要启动定位时，会调用此函数
